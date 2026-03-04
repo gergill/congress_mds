@@ -1,3 +1,4 @@
 *.csv
 *.Rproj.*
 *.Rproj
+.Rproj.user
