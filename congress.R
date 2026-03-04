@@ -19,17 +19,18 @@ parties= cbind("party_code" = c(1, 13, 22, 26, 29, 37, 44, 46, 100, 108, 112, 11
 #' @param chamber Either "house" or "senate".
 #' @param congress A number from 1 to 119.
 #'
-#' @returns
+#' @returns An interactive `plotly` scatter plot with a point for each member in the specified Congress and chamber. Colors correspond to political party.
 #' @export
 #'
 #' @examples
+#' make_congress_plot("house", 3)
 make_congress_plot = function(chamber, congress) {
   # baby input sanitation
   chamber = tolower(chamber)
 
   # pull just the congress/chamber we need from master dataset
-  vote_data = all_vote_data[all_vote_data$chamber == chamber & all_vote_data$congress == congress, ]
-  member_data = all_member_data[all_member_data$chamber == chamber & all_member_data$congress == congress, ]
+  vote_data = all_vote_data[tolower(all_vote_data$chamber) == chamber & all_vote_data$congress == congress, ]
+  member_data = all_member_data[tolower(all_member_data$chamber) == chamber & all_member_data$congress == congress, ]
 
   # preprocess vote codes like "paired yes"
   vote_data$cast_code = sapply(vote_data$cast_code, function(x) if(x == 2 | x == 3) 1 else if (x == 4 | x == 5) 6 else x)
@@ -49,7 +50,7 @@ make_congress_plot = function(chamber, congress) {
     geom_point() +
     theme_void() +
     labs(color = "Party") +
-    scale_color_manual(values = brewer.pal(length(unique(member_data$party_code)), name = "Set1"), labels = sort(unique(parties[match(member_data$party_code, parties), 2])))
+    scale_color_manual(values = brewer.pal(max(3, length(unique(member_data$party_code))), name = "Set1"), labels = sort(unique(parties[match(member_data$party_code, parties), 2])))
 
   # return an interactive plot
   return(ggplotly(congress_plot, tooltip = "text"))
