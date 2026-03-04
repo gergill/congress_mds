@@ -50,7 +50,7 @@ make_congress_plot = function(chamber, congress) {
     geom_point() +
     theme_void() +
     labs(color = "Party") +
-    scale_color_manual(values = brewer.pal(max(3, length(unique(member_data$party_code))), name = "Set1"), labels = sort(unique(parties[match(member_data$party_code, parties), 2])))
+    scale_color_manual(values = brewer.pal(max(3, length(unique(member_data$party_code))), name = "Set1"))
 
   # return an interactive plot
   return(ggplotly(congress_plot, tooltip = "text"))
