@@ -57,5 +57,5 @@ make_congress_plot = function(chamber, congress) {
   return(ggplotly(congress_plot, tooltip = "text"))
 }
 
-# invisible(lapply(c("house", "senate"), function(chamber) lapply(37:119, function(congress) saveWidget(make_congress_plot(chamber, congress), paste0(chamber, congress, ".html"), selfcontained = FALSE, libdir = "lib"))))
+# invisible(lapply(c("senate"), function(chamber) lapply(1:119, function(congress) saveWidget(make_congress_plot(chamber, congress), paste0(chamber, congress, ".html"), selfcontained = FALSE, libdir = "lib"))))
 
