@@ -4,13 +4,14 @@ library(RColorBrewer)
 library(ggplot2)
 library(reshape2)
 library(plotly)
+library(htmlwidgets)
 
 # get alllll the data
 all_vote_data = read.csv("HSall_votes.csv")
 all_member_data = read.csv("HSall_members.csv")
 
 # for labeling later
-parties= cbind("party_code" = c(1, 13, 22, 26, 29, 37, 44, 46, 100, 108, 112, 114, 117, 200, 203, 206, 208, 213, 300, 310, 326, 328, 329, 331, 340, 347, 354, 355, 356, 370, 380, 402, 403, 522, 523, 537, 555, 603, 1060, 1111, 1116, 1275, 1346, 3333, 3334, 4000, 4444, 5000, 6000, 7000, 7777, 8000, 8888), "party_name" = c("Federalist", "Democratic-Republican", "Adams", "Anti-Masonic", "Whig", "Constitutional Unionist", "Nullifier", "States' Rights", "Democratic", "Anti-Lecompton Democrats", "Conservative", "Readjuster", "Readjuster Democrats", "Republican", "Unconditional Unionist", "Unionist", "Liberal Republican", "Progressive Republican", "Free Soil", "American", "National Greenbacker", "Independent", "Independent Democrat", "Independent Republican", "Populist", "Prohibitionist", "Silver Republican", "Union Labor", "Union Labor", "Progressive", "Socialist", "Liberal", "Law and Order", "American Labor", "American Labor (La Guardia)", "Farmer-Labor", "Jackson", "Independent Whig", "Silver", "Liberty", "Conservative Republicans", "Anti-Jacksonians", "Jackson Republican", "Opposition", "Opposition (36th)", "Anti-Administration", "Constitutional Unionist", "Pro-Administration", "Crawford Federalist", "Jackson Federalist", "Crawford Republican", "Adams-Clay Federalist", "Adams-Clay Republican"))
+parties= cbind("party_code" = c(1, 13, 22, 26, 29, 37, 44, 46, 100, 108, 112, 114, 117, 200, 203, 206, 208, 213, 300, 310, 326, 328, 329, 331, 340, 347, 354, 355, 356, 370, 380, 402, 403, 522, 523, 537, 555, 603, 1060, 1111, 1116, 1275, 1346, 3333, 3334, 4000, 4444, 5000, 6000, 7000, 7777, 8000, 8888), "party_name" = c("Federalist", "Democratic-Republican", "Adams", "Anti-Masonic", "Whig", "Constitutional Unionist", "Nullifier", "States' Rights", "Democratic", "Anti-Lecompton Democrats", "Conservative", "Readjuster", "Readjuster Democrats", "Republican", "Unconditional Unionist", "Unionist", "Liberal Republican", "Progressive Republican", "Free Soil", "American", "National Greenbacker", "Independent", "Independent Democrat", "Independent Republican", "Populist", "Prohibitionist", "Silver Republican", "Union Labor", "Union Labor", "Progressive", "Socialist", "Liberal", "Law and Order", "American Labor", "American Labor (La Guardia)", "Farmer-Labor", "Jackson", "Independent Whig", "Silver", "Liberty", "Conservative Republicans", "Anti-Jacksonians", "Jackson Republican", "Opposition", "Opposition (36th)", "Anti-Administration", "National Unionist", "Pro-Administration", "Crawford Federalist", "Jackson Federalist", "Crawford Republican", "Adams-Clay Federalist", "Adams-Clay Republican"))
 
 
 
@@ -55,3 +56,6 @@ make_congress_plot = function(chamber, congress) {
   # return an interactive plot
   return(ggplotly(congress_plot, tooltip = "text"))
 }
+
+# invisible(lapply(c("house", "senate"), function(chamber) lapply(37:119, function(congress) saveWidget(make_congress_plot(chamber, congress), paste0(chamber, congress, ".html"), selfcontained = FALSE, libdir = "lib"))))
+
