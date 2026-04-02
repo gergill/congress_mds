@@ -37,6 +37,7 @@ make_congress_plot = function(chamber, congress) {
   vote_data$cast_code = sapply(vote_data$cast_code, function(x) if(x == 2 | x == 3) 1 else if (x == 4 | x == 5) 6 else x)
 
   # compute distances as levenshtein distance between vote records (i.e., the distance between two congresspersons is the number of votes they cast differently)
+  # TODO: update this to treat NV/absentees better
   congressional_dists = dist_make(data.frame(unlist(lapply(unique(vote_data$icpsr), function(x) paste0(vote_data[vote_data$icpsr == x, ]$cast_code, collapse = "")))), distance_fcn = stringdist, method = "lv")
 
   # do the cmds
@@ -57,5 +58,6 @@ make_congress_plot = function(chamber, congress) {
   return(ggplotly(congress_plot, tooltip = "text"))
 }
 
+# generate plots for all sessions
 # invisible(lapply(c("senate"), function(chamber) lapply(1:119, function(congress) saveWidget(make_congress_plot(chamber, congress), paste0(chamber, congress, ".html"), selfcontained = FALSE, libdir = "lib"))))
 
