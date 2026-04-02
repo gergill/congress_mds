@@ -2,3 +2,5 @@
 *.Rproj.*
 *.Rproj
 .Rproj.user
+*.Rhistory
+lib/*
